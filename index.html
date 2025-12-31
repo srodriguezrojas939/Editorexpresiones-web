@@ -76,20 +76,6 @@
 <script>
     // ================= CONFIGURACIÓN Y ESTADO =================
     const menus = {
-        "Álgebra": [
-            {n: 'Fracc', s: '\\frac{a}{b}', i: '÷'}, {n: 'Raiz', s: '\\sqrt{x}', i: '√'},
-            {n: 'Potencia', s: 'x^{n}', i: 'xⁿ'}, {n: 'Sist.', s: '\\begin{cases} x=1 \\\\ y=2 \\end{cases}', i: '{='},
-            {n: 'Matriz', s: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}', i: '[M]'}
-        ],
-        "Cálculo": [
-            {n: 'Integral', s: '\\int_{a}^{b} ', i: '∫'}, {n: 'Derivada', s: '\\frac{dy}{dx}', i: 'dy'},
-            {n: 'Suma', s: '\\sum_{i=1}^{n}', i: '∑'}, {n: 'Límite', s: '\\lim_{x \to \infty}', i: 'lim'}
-        ],
-        "Símbolos": [
-            {n: 'Espacio', s: '\\: ', i: '␣'}, {n: 'Infinito', s: '\\infty', i: '∞'},
-            {n: 'Pi', s: '\\pi', i: 'π'}, {n: 'Alfa', s: '\\alpha', i: 'α'},
-            {n: 'Beta', s: '\\beta', i: 'β'}, {n: 'Texto', s: '\\text{abc}', i: 'T'}
-        ],
         "Letras Griegas": [
             {n: 'Alpha', s: '\\alpha', i: 'α'},
             {n: 'Beta', s: '\\beta', i: 'β'},
@@ -109,7 +95,157 @@
             {n: 'Delta M.', s: '\\Delta', i: 'Δ'},
             {n: 'Sigma M.', s: '\\Sigma', i: 'Σ'},
             {n: 'Omega M.', s: '\\Omega', i: 'Ω'}
+        ],
+        "Flechas": [
+            {n: 'Derecha', s: '\\rightarrow', i: '→'},
+            {n: 'Izquierda', s: '\\leftarrow', i: '←'},
+            {n: 'Implica', s: '\\implies', i: '⇒'},
+            {n: 'Equival', s: '\\iff', i: '⇔'},
+            {n: 'Mapeo', s: '\\mapsto', i: '↦'},
+            {n: 'Arriba', s: '\\uparrow', i: '↑'},
+            {n: 'Abajo', s: '\\downarrow', i: '↓'},
+            {n: 'Doble Dir', s: '\\leftrightarrow', i: '↔'},
+            {n: 'Hacia', s: '\\to', i: '→'}
+        ],
+        "Lógica": [
+            {n: 'Para todo', s: '\\forall ', i: '∀'},
+            {n: 'Existe', s: '\\exists ', i: '∃'},
+            {n: 'No existe', s: '\\nexists ', i: '∄'},
+            {n: 'Pertenece', s: '\\in ', i: '∈'},
+            {n: 'No pert.', s: '\\notin ', i: '∉'},
+            {n: 'Unión', s: '\\cup ', i: '∪'},
+            {n: 'Intersec', s: '\\cap ', i: '∩'},
+            {n: 'Vacío', s: '\\emptyset', i: '∅'},
+            {n: 'Subconj', s: '\\subset ', i: '⊂'},
+            {n: 'Incluido', s: '\\subseteq ', i: '⊆'},
+            {n: 'Tal que', s: '\\mid ', i: '|'},
+            {n: 'Por tanto', s: '\\therefore ', i: '∴'},
+            {n: 'Porque', s: '\\because ', i: '∵'},
+            {n: 'Y (and)', s: '\\land ', i: '∧'},
+            {n: 'O (or)', s: '\\lor ', i: '∨'},
+            {n: 'Negación', s: '\\neg ', i: '¬'}
+        ],
+        "Principales": [
+            {n: 'Suma', s: '+', i: '+'},
+            {n: 'Resta', s: '-', i: '-'},
+            {n: 'Igual', s: '=', i: '='},
+            {n: 'Punto', s: '\\cdot ', i: '·'},
+            {n: 'Por', s: '\\times ', i: '×'},
+            {n: 'División', s: '\\div ', i: '÷'},
+            {n: 'Fracción', s: '\\frac{a}{b}', i: '÷'},
+            {n: 'Potencia', s: '^{n}', i: 'xⁿ'},
+            {n: 'Subíndice', s: '_{n}', i: 'xₙ'},
+            {n: 'Más-menos', s: '\\pm ', i: '±'},
+            {n: 'Menos-más', s: '\\mp ', i: '∓'},
+            {n: 'Aproxim.', s: '\\approx ', i: '≈'},
+            {n: 'Distinto', s: '\\neq ', i: '≠'},
+            {n: 'Idéntico', s: '\\equiv ', i: '≡'},
+            {n: 'Similar', s: '\\sim ', i: '∼'},
+            {n: 'Proporc.', s: '\\propto ', i: '∝'}
+        ],
+        "Desigualdades": [
+            {n: 'Menor que', s: '<', i: '<'},
+            {n: 'Mayor que', s: '>', i: '>'},
+            {n: 'Menor igual', s: '\\leq ', i: '≤'},
+            {n: 'Mayor igual', s: '\\geq ', i: '≥'},
+            {n: 'Mucho menor', s: '\\ll ', i: '≪'},
+            {n: 'Mucho mayor', s: '\\gg ', i: '≫'},
+            {n: 'No menor', s: '\\nless ', i: '≮'},
+            {n: 'No mayor', s: '\\ngtr ', i: '≯'},
+            {n: 'Precede', s: '\\prec ', i: '≺'},
+            {n: 'Sigue', s: '\\succ ', i: '≻'}
+        ],
+        "Cálculo": [
+            {n: 'Integral', s: '\\int ', i: '∫'},
+            {n: 'Int. Doble', s: '\\iint ', i: '∬'},
+            {n: 'Int. Triple', s: '\\iiint ', i: '∭'},
+            {n: 'Int. Cerrada', s: '\\oint ', i: '∮'},
+            {n: 'Derivada', s: '\\frac{d}{dx}', i: 'd/dx'},
+            {n: 'Deriv. n', s: '\\frac{d^{n}}{dx^{n}}', i: 'dⁿ'},
+            {n: 'Parcial', s: '\\frac{\\partial }{\\partial x}', i: '∂/∂x'},
+            {n: 'Parcial n', s: '\\frac{\\partial^{n} }{\\partial x^{n}}', i: '∂ⁿ'},
+            {n: 'Nabla', s: '\\nabla ', i: '∇'},
+            {n: 'Gradiente', s: '\\nabla f', i: 'grad'},
+            {n: 'Divergencia', s: '\\nabla \\cdot ', i: 'div'},
+            {n: 'Rotacional', s: '\\nabla \\times ', i: 'rot'},
+            {n: 'Laplace', s: '\\mathcal{L}\\{ f(t) \\}', i: 'ℒ'},
+            {n: 'Laplace Inv', s: '\\mathcal{L}^{-1}\\{ F(s) \\}', i: 'ℒ⁻¹'},
+            {n: 'Límite', s: '\\lim_{x \\to \\infty}', i: 'lim'},
+            {n: 'Sumatoria', s: '\\sum_{i=1}^{n}', i: '∑'},
+            {n: 'Productoria', s: '\\prod_{i=1}^{n}', i: '∏'},
+            {n: 'Deriv. Punto', s: '\\dot{x}', i: 'ẋ'},
+            {n: 'Deriv. Prima', s: "f'(x)", i: "f'"}
+        ],
+        "Conjuntos": [
+            {n: 'Pertenencia', s: '\\in ', i: '∈'},
+            {n: 'No pertenencia', s: '\\notin ', i: '∉'},
+            {n: 'Unión', s: '\\cup ', i: '∪'},
+            {n: 'Intersección', s: '\\cap ', i: '∩'},
+            {n: 'Vacío', s: '\\emptyset ', i: '∅'},
+            {n: 'Subconjunto', s: '\\subset ', i: '⊂'},
+            {n: 'Incluido', s: '\\subseteq ', i: '⊆'},
+            {n: 'No incluido', s: '\\nsubseteq ', i: '⊈'},
+            {n: 'Diferencia', s: '\\setminus ', i: '\\'},
+            {n: 'Producto Cart.', s: '\\times ', i: '×'},
+            {n: 'Potencia (P)', s: '\\mathcal{P}', i: '𝒫'},
+            {n: 'Naturales (N)', s: '\\mathbb{N}', i: 'ℕ'},
+            {n: 'Enteros (Z)', s: '\\mathbb{Z}', i: 'ℤ'},
+            {n: 'Racionales (Q)', s: '\\mathbb{Q}', i: 'ℚ'},
+            {n: 'Reales (R)', s: '\\mathbb{R}', i: 'ℝ'},
+            {n: 'Complejos (C)', s: '\\mathbb{C}', i: 'ℂ'},
+            {n: 'Primos (P)', s: '\\mathbb{P}', i: 'ℙ'}
+        ],
+        "Matrices/Sist": [
+            {n: 'Sist. 2 eq', s: '\\begin{cases} x+y=1 \\\\ x-y=0 \\end{cases}', i: '{='},
+            {n: 'Matriz ( )', s: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}', i: '(M)'},
+            {n: 'Matriz [ ]', s: '\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}', i: '[M]'},
+            {n: 'Determinante', s: '\\begin{vmatrix} a & b \\\\ c & d \\end{vmatrix}', i: '|M|'},
+            {n: 'Vector', s: '\\vec{v}', i: 'v⃗'},
+            {n: 'Versor', s: '\\hat{u}', i: 'û'},
+            {n: 'Norma', s: '\\| v \\|', i: '||v||'},
+            {n: 'Traspuesta', s: 'A^{T}', i: 'Aᵀ'},
+            {n: 'Inversa', s: 'A^{-1}', i: 'A⁻¹'},
+            {n: 'Puntos Horiz', s: '\\cdots ', i: '⋯'},
+            {n: 'Puntos Vert', s: '\\vdots ', i: '⋮'},
+            {n: 'Puntos Diag', s: '\\ddots ', i: '⋱'},
+            {n: 'Dimensión', s: '\\mathbb{R}^{n \\times m}', i: 'Rⁿˣᵐ'}
+        ],
+        "Paréntesis": [
+            {n: 'Paréntesis', s: '\\left(  \\right)', i: '( )'},
+            {n: 'Corchetes', s: '\\left[  \\right]', i: '[ ]'},
+            {n: 'Llaves', s: '\\left\\{  \\right\\}', i: '{ }'},
+            {n: 'Absoluto', s: '\\left|  \\right|', i: '|x|'},
+            {n: 'Norma', s: '\\left\\|  \\right\\|', i: '||x||'},
+            {n: 'Angulares', s: '\\langle  \\rangle', i: '⟨ ⟩'},
+            {n: 'Suelo', s: '\\lfloor  \\rfloor', i: '⌊ ⌋'},
+            {n: 'Techo', s: '\\lceil  \\rceil', i: '⌈ ⌉'},
+            {n: 'Izq. Abierta', s: '\\left(  \\right.', i: '( ...'},
+            {n: 'Der. Abierta', s: '\\left.  \\right)', i: '... )'},
+            {n: 'Solo Izq.', s: '\\left\\{  \\right.', i: '{ ...'},
+            {n: 'Solo Der.', s: '\\left.  \\right\\}', i: '... }'}
+        ],
+        "Otros": [
+            {n: 'Espacio', s: '\\: ', i: '␣'},
+            {n: 'Espacio L', s: '\\quad ', i: '␣+'},
+            {n: 'Infinito', s: '\\infty ', i: '∞'},
+            {n: 'Texto', s: '\\text{ }', i: 'Abc'},
+            {n: 'Ángulo', s: '\\angle ', i: '∠'},
+            {n: 'Triángulo', s: '\\triangle ', i: '△'},
+            {n: 'Perpendic.', s: '\\perp ', i: '⊥'},
+            {n: 'Paralelo', s: '\\parallel ', i: '∥'},
+            {n: 'Vector L', s: '\\overrightarrow{AB}', i: '⟶'},
+            {n: 'Vector I', s: '\\overleftarrow{AB}', i: '⟵'},
+            {n: 'Sobre-llave', s: '\\overbrace{a+b}^{n}', i: '⏞'},
+            {n: 'Bajo-llave', s: '\\underbrace{a+b}_{n}', i: '⏟'},
+            {n: 'Barra sup.', s: '\\overline{x}', i: 'x̄'},
+            {n: 'Barra inf.', s: '\\underline{x}', i: 'x_'},
+            {n: 'Sombrero L', s: '\\widehat{abc}', i: 'Â'},
+            {n: 'Grados', s: '^{\\circ}', i: '°'},
+            {n: 'Daga', s: '\\dagger ', i: '†'},
+            {n: 'Planck', s: '\\hbar ', i: 'ℏ'}
         ]
+        
+        
     };
     let renderTimer;
     let currentColor = '#000000';
