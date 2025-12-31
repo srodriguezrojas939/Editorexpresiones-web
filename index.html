@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Expresiones Pro</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/nerdamer.core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+        body { background: #f0f2f5; font-family: 'Open Sans', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
+
+        .editor-container {
+            background: #F2F2F2; padding: 30px; border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); width: 100%; max-width: 800px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 34px; margin: 0; font-weight: 600; }
+        .header p { font-family: 'Playfair Display', serif; font-size: 18px; color: #444; margin: 5px 0; }
+
+        /* Visor de alta calidad */
+        .preview-card {
+            background: white; border-radius: 25px; border: 1px solid #ddd;
+            margin-bottom: 20px; position: relative; min-height: 160px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+        }
+        #capture-area { padding: 40px; background: transparent; transition: 0.2s; }
+        #math-output { font-size: 1.8rem; }
+
+        /* Panel de Símbolos */
+        .toolbar {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 8px; margin-bottom: 15px; background: #e8e8e8;
+            padding: 15px; border-radius: 20px; border: 1px solid #ddd;
+        }
+        .tool-btn {
+            height: 40px; border-radius: 10px; border: 1px solid #ccc;
+            background: white; cursor: pointer; font-size: 14px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; font-family: 'serif';
+        }
+        .tool-btn:hover { background: #000; color: white; transform: scale(1.05); }
+
+        /* Input */
+        textarea {
+            width: 100%; padding: 20px; border-radius: 20px;
+            border: 2px solid #ddd; box-sizing: border-box; font-size: 17px;
+            font-family: 'Courier New', monospace; outline: none;
+            resize: none; min-height: 80px; transition: 0.3s;
+        }
+        textarea:focus { border-color: #000; background: #fff; }
+
+        .btn-download {
+            width: 100%; background: #000; color: #fff; border: none;
+            padding: 20px; border-radius: 30px; font-size: 16px; font-weight: 700;
+            cursor: pointer; margin-top: 20px; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+<div class="editor-container">
+    <div class="header">
+        <h1>Editor de expresiones</h1>
+        <p>√(Raiz) Cuadrada²</p>
+    </div>
+
+    <div class="preview-card">
+        <div id="capture-area">
+            <div id="math-output">$$ ((a \cdot x^2+b) \cdot \text{atan}(x))/(x^2+1) $$</div>
+        </div>
+    </div>
+
+    <div class="toolbar" id="toolbar">
+        </div>
+
+    <textarea id="math-input" placeholder="Escribe tu expresión aquí... ej: (x^2 + sqrt(y)) / 2" oninput="processMath()">((a*x^2+b)*atan(x))/(x^2+1)</textarea>
+
+    <button class="btn-download" onclick="exportImage()">
+        <span>💾</span> Descargar PNG Transparente (Alta Calidad)
+    </button>
+</div>
+
+<script>
+    const symbols = [
+        { label: '√', val: 'sqrt()' }, { label: 'π', val: 'pi' }, { label: '^', val: '^' }, 
+        { label: '/', val: '/' }, { label: '(', val: '(' }, { label: ')', val: ')' },
+        { label: 'sin', val: 'sin()' }, { label: 'cos', val: 'cos()' }, { label: 'tan', val: 'tan()' },
+        { label: 'atan', val: 'atan()' }, { label: 'log', val: 'log()' }, { label: 'ln', val: 'log()' },
+        { label: 'α', val: 'alpha' }, { label: 'β', val: 'beta' }, { label: 'θ', val: 'theta' },
+        { label: 'x', val: 'x' }, { label: 'y', val: 'y' }, { label: 'z', val: 'z' },
+        { label: '∞', val: 'inf' }, { label: '∫', val: 'integrate()' }, { label: '=', val: '=' }
+    ];
+
+    const toolbar = document.getElementById('toolbar');
+    const input = document.getElementById('math-input');
+
+    // Crear botones del panel
+    symbols.forEach(s => {
+        let btn = document.createElement('button');
+        btn.className = 'tool-btn';
+        btn.innerText = s.label;
+        btn.onclick = () => insertAtCursor(s.val);
+        toolbar.appendChild(btn);
+    });
+
+    function insertAtCursor(val) {
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const text = input.value;
+        input.value = text.substring(0, start) + val + text.substring(end);
+        input.focus();
+        // Colocar el cursor dentro del paréntesis si existe
+        const offset = val.endsWith('()') ? 1 : 0;
+        input.selectionStart = input.selectionEnd = start + val.length - offset;
+        processMath();
+    }
+
+    function processMath() {
+        const val = input.value.trim();
+        const output = document.getElementById('math-output');
+
+        if (!val) {
+            output.innerHTML = "$$ ... $$";
+            return;
+        }
+
+        try {
+            // Nerdamer convierte expresión "normal" a LaTeX
+            let latex = nerdamer(val).toTeX();
+            output.innerHTML = `$$ ${latex} $$`;
+        } catch (e) {
+            // Si el usuario está escribiendo y la expresión es incompleta, 
+            // intentamos mostrar algo legible o el último estado válido
+            output.innerHTML = `\\( \\text{${val}} \\)`;
+        }
+        
+        MathJax.typesetPromise([output]);
+    }
+
+    async function exportImage() {
+        const area = document.getElementById('capture-area');
+        const btn = document.querySelector('.btn-download');
+        btn.innerText = "Procesando...";
+
+        try {
+            const canvas = await html2canvas(area, {
+                backgroundColor: null,
+                scale: 5, // Súper alta calidad
+                logging: false
+            });
+
+            const link = document.createElement('a');
+            link.download = 'expresion-matematica.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        } catch (err) {
+            alert("Error al exportar imagen");
+        } finally {
+            btn.innerHTML = "<span>💾</span> Descargar PNG Transparente (Alta Calidad)";
+        }
+    }
+
+    // Inicializar
+    window.onload = processMath;
+</script>
+
+</body>
+</html>
