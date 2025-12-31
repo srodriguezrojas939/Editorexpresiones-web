@@ -14,6 +14,24 @@
         
         /* Nuevo Selector de Color Discreto */
         .color-wrapper { position: absolute; top: 0; right: 0; }
+        /* Estilos para el botón de borrar */
+        .btn-clear {
+            position: absolute;
+            top: 0;
+            right: 35px; /* Lo coloca a la izquierda del selector de color */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
+            color: #999; /* Color inicial gris suave */
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .btn-clear:hover {
+            color: #FF3B30; /* Se vuelve rojo al pasar el mouse */
+            transform: scale(1.1); /* Un pequeño efecto de zoom */
+        }
         .color-trigger { width: 25px; height: 25px; border-radius: 4px; border: 2px solid #ddd; cursor: pointer; background-color: #000; transition: 0.2s; }
         .color-trigger:hover { border-color: #999; }
         #hidden-color-input { position: absolute; top: 0; right: 0; width: 25px; height: 25px; opacity: 0; cursor: pointer; }
