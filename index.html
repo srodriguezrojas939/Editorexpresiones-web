@@ -3,199 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor de Expresiones Optimizado</title>
+    <title>Editor Matemático Estable</title>
 
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap');
 
         body { background: #fff; font-family: 'Open Sans', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
 
-        .calculadora {
-            background: #F2F2F2; padding: 30px; border-radius: 40px;
-            width: 100%; max-width: 850px; display: flex; flex-direction: column; align-items: center;
+        .container {
+            background: #F2F2F2; padding: 25px; border-radius: 35px;
+            width: 100%; max-width: 800px; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        .header-section { text-align: center; margin-bottom: 20px; }
-        .header-section h1 { font-family: 'Playfair Display', serif; font-size: 32px; margin: 0; }
-        .header-section p { font-family: 'Playfair Display', serif; font-size: 18px; margin: 5px 0; color: #555; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0; }
 
-        /* Visor */
+        /* Visor optimizado */
         .preview-box {
-            background: white; border-radius: 25px; margin-bottom: 20px;
-            width: 100%; min-height: 140px; display: flex; align-items: center; justify-content: center;
-            border: 1px solid #ddd; overflow: auto;
+            background: white; border-radius: 20px; margin-bottom: 20px;
+            width: 100%; min-height: 120px; display: flex; align-items: center; 
+            justify-content: center; border: 1px solid #ddd; overflow-x: auto;
         }
         
-        #math-output { padding: 20px; display: inline-block; transition: opacity 0.2s; }
+        #math-target { padding: 25px; display: inline-block; }
 
-        /* Toolbar Centrada e Interna */
+        /* Menús internos */
         .toolbar { width: 100%; margin-bottom: 15px; }
-        details { background: white; border-radius: 15px; margin-bottom: 5px; border: 1px solid #e0e0e0; }
-        summary { padding: 10px 20px; font-weight: 600; font-size: 13px; cursor: pointer; color: #444; list-style: none; }
+        details { background: white; border-radius: 12px; margin-bottom: 5px; border: 1px solid #e0e0e0; }
+        summary { padding: 10px 15px; font-weight: 600; font-size: 13px; cursor: pointer; color: #444; list-style: none; }
         
-        .symbol-grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); 
-            gap: 6px; padding: 12px; border-top: 1px solid #eee;
+        .grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); 
+            gap: 5px; padding: 10px; border-top: 1px solid #eee;
         }
 
-        .sym-btn {
-            background: #fdfdfd; border: 1px solid #ddd; padding: 8px 4px; border-radius: 10px;
-            cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.15s;
+        .btn-sym {
+            background: #fdfdfd; border: 1px solid #ddd; padding: 8px 2px; border-radius: 8px;
+            cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.1s;
         }
-        .sym-btn:hover { background: #000; color: #fff; transform: scale(1.05); }
-        .sym-btn b { font-size: 18px; margin-bottom: 2px; }
-        .sym-btn span { font-size: 9px; text-transform: uppercase; font-weight: 700; opacity: 0.7; }
+        .btn-sym:hover { background: #000; color: #fff; }
+        .btn-sym b { font-size: 16px; margin-bottom: 2px; }
+        .btn-sym span { font-size: 8px; font-weight: 700; text-transform: uppercase; opacity: 0.6; }
 
         textarea {
-            width: 100%; padding: 18px; border-radius: 20px; border: 1px solid #ccc;
-            font-size: 16px; font-family: 'Courier New', monospace; outline: none;
-            resize: vertical; min-height: 90px; margin-bottom: 15px; text-align: center;
+            width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #ccc;
+            font-size: 15px; font-family: 'Courier New', monospace; outline: none;
+            resize: vertical; min-height: 80px; margin-bottom: 15px; text-align: center;
         }
 
-        .download-zone { display: flex; gap: 10px; width: 100%; }
-        select { padding: 12px; border-radius: 20px; border: 1px solid #ccc; flex: 1; outline: none; font-weight: 600; }
+        .actions { display: flex; gap: 8px; width: 100%; }
+        select { padding: 12px; border-radius: 15px; border: 1px solid #ccc; flex: 1; font-weight: 600; cursor: pointer; }
         
-        .btn-descargar {
-            flex: 2; background: black; color: white; border: none;
-            padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700;
+        .btn-dl {
+            flex: 2; background: #000; color: #fff; border: none;
+            padding: 12px; border-radius: 25px; font-size: 14px; font-weight: 700;
             cursor: pointer; transition: 0.2s;
         }
-        .btn-descargar:active { transform: scale(0.98); }
+        .btn-dl:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
 
-<div class="calculadora">
-    <div class="header-section">
+<div class="container">
+    <div class="header">
         <h1>Editor de expresiones</h1>
-        <p>√(Raiz) Cuadrada²</p>
     </div>
 
     <div class="preview-box">
-        <div id="math-output">\[ ... \]</div>
+        <div id="math-target">\[ ... \]</div>
     </div>
 
     <div class="toolbar" id="toolbar"></div>
 
-    <textarea id="latex-input" spellcheck="false" placeholder="Escribe aquí tu expresión..."></textarea>
+    <textarea id="math-input" spellcheck="false" placeholder="Escribe aquí..."></textarea>
 
-    <div class="download-zone">
-        <select id="quality">
-            <option value="2">Calidad Media</option>
-            <option value="4" selected>Calidad Alta</option>
-            <option value="7">Calidad Ultra</option>
+    <div class="actions">
+        <select id="res-val">
+            <option value="1.2">Calidad Baja</option>
+            <option value="2.5" selected>Calidad Media</option>
+            <option value="4.0">Calidad Alta</option>
         </select>
-        <button class="btn-descargar" onclick="fastDownload()">Descargar PNG</button>
+        <button class="btn-dl" onclick="safeExport()">Descargar PNG</button>
     </div>
 </div>
 
 <script>
-    const menus = {
+    const config = {
         "Álgebra": [
             {n: 'Fracc', s: '\\frac{a}{b}', i: '÷'}, {n: 'Raiz', s: '\\sqrt{x}', i: '√'},
-            {n: 'Poten', s: 'x^{n}', i: 'xⁿ'}, {n: 'Sist', s: '\\begin{cases} x=1 \\\\ y=2 \\end{cases}', i: '{='}
+            {n: 'Sist', s: '\\begin{cases} x=1 \\\\ y=2 \\end{cases}', i: '{='}, {n: 'Matriz', s: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}', i: '[M]'}
         ],
         "Cálculo": [
-            {n: 'Integ', s: '\\int ', i: '∫'}, {n: 'Deriv', s: '\\frac{d}{dx}', i: 'd/dx'},
-            {n: 'Límite', s: '\\lim_{x \\to \\infty}', i: 'lim'}, {n: 'Suma', s: '\\sum ', i: '∑'}
+            {n: 'Integ', s: '\\int_{a}^{b} ', i: '∫'}, {n: 'Deriv', s: '\\frac{dy}{dx}', i: 'dy'},
+            {n: 'Suma', s: '\\sum_{i=1}^{n}', i: '∑'}, {n: 'Lím', s: '\\lim_{x \\to \\infty}', i: 'lim'}
         ],
-        "Símbolos": [
-            {n: 'Espacio', s: '\\: ', i: '␣'}, {n: 'Infinito', s: '\\infty', i: '∞'},
-            {n: 'Pi', s: '\\pi', i: 'π'}, {n: 'Vector', s: '\\vec{v}', i: 'v⃗'}
+        "Extras": [
+            {n: 'Espacio', s: '\\: ', i: '␣'}, {n: 'Texto', s: '\\text{ }', i: 'Abc'},
+            {n: 'Inf', s: '\\infty', i: '∞'}, {n: 'Pi', s: '\\pi', i: 'π'}
         ]
     };
 
-    let renderTimer;
-    const input = document.getElementById('latex-input');
-    const output = document.getElementById('math-output');
+    let timer;
+    const inputArea = document.getElementById('math-input');
+    const display = document.getElementById('math-target');
 
-    // Inicializar Toolbar
     function init() {
         const tb = document.getElementById('toolbar');
-        for (let cat in menus) {
-            let det = document.createElement('details');
-            let grid = document.createElement('div');
-            grid.className = 'symbol-grid';
-            det.innerHTML = `<summary>${cat}</summary>`;
-            menus[cat].forEach(b => {
-                let btn = document.createElement('button');
-                btn.className = 'sym-btn';
-                btn.onclick = () => {
-                    let start = input.selectionStart;
-                    input.value = input.value.substring(0, start) + b.s + input.value.substring(input.selectionEnd);
-                    input.focus();
-                    triggerRender();
+        for (let cat in config) {
+            let d = document.createElement('details');
+            let g = document.createElement('div');
+            g.className = 'grid';
+            d.innerHTML = `<summary>${cat}</summary>`;
+            config[cat].forEach(item => {
+                let b = document.createElement('button');
+                b.className = 'btn-sym';
+                b.onclick = () => {
+                    let s = inputArea.selectionStart;
+                    inputArea.value = inputArea.value.substring(0, s) + item.s + inputArea.value.substring(inputArea.selectionEnd);
+                    inputArea.focus();
+                    render();
                 };
-                btn.innerHTML = `<b>${b.i}</b><span>${b.n}</span>`;
-                grid.appendChild(btn);
+                b.innerHTML = `<b>${item.i}</b><span>${item.n}</span>`;
+                g.appendChild(b);
             });
-            det.appendChild(grid);
-            tb.appendChild(det);
+            d.appendChild(g);
+            tb.appendChild(d);
         }
-        input.value = "\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}";
-        triggerRender();
+        inputArea.value = "\\frac{x^2 + 1}{\\sqrt{\\frac{1}{x}}}"; 
+        render();
     }
 
-    // Optimización: Debounce para evitar lag al escribir
-    input.addEventListener('input', triggerRender);
+    inputArea.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(render, 400); // Mayor retraso para evitar lag
+    });
 
-    function triggerRender() {
-        output.style.opacity = "0.5";
-        clearTimeout(renderTimer);
-        renderTimer = setTimeout(() => {
-            output.innerHTML = `\\[ ${input.value || '\\text{...}'} \\]`;
-            MathJax.typesetPromise([output]).then(() => {
-                output.style.opacity = "1";
-            });
-        }, 300); // 300ms de espera
+    function render() {
+        display.style.opacity = "0.4";
+        display.innerHTML = `\\[ ${inputArea.value || '\\text{...}'} \\]`;
+        MathJax.typesetPromise([display]).then(() => {
+            display.style.opacity = "1";
+        });
     }
 
-    // Descarga Optimizada y Robusta
-    async function fastDownload() {
-        const svg = output.querySelector('svg');
+    async function safeExport() {
+        const svg = display.querySelector('svg');
         if (!svg) return;
 
-        const btn = document.querySelector('.btn-descargar');
-        btn.innerText = "Procesando...";
+        const btn = document.querySelector('.btn-dl');
+        btn.innerText = "Guardando...";
         
-        const scale = parseFloat(document.getElementById('quality').value);
+        const scale = parseFloat(document.getElementById('res-val').value);
         
-        // Obtenemos dimensiones originales
-        const box = svg.viewBox.baseVal;
-        const width = box.width * scale;
-        const height = box.height * scale;
+        // Obtener dimensiones reales del SVG
+        const bbox = svg.viewBox.baseVal;
+        const w = bbox.width * scale;
+        const h = bbox.height * scale;
 
-        // Crear Canvas
+        // Límite de seguridad: Si la imagen es mayor a 5000px, reducir escala
+        let finalScale = scale;
+        if (h > 4000 || w > 4000) {
+            alert("Expresión muy grande. Se ajustará la calidad para evitar errores.");
+            finalScale = 1.0; 
+        }
+
         const canvas = document.createElement('canvas');
-        canvas.width = width + (40 * scale);
-        canvas.height = height + (40 * scale);
+        canvas.width = (bbox.width * finalScale) + (20 * finalScale);
+        canvas.height = (bbox.height * finalScale) + (20 * finalScale);
+        
         const ctx = canvas.getContext('2d');
-
-        // Serializar SVG
         const svgData = new XMLSerializer().serializeToString(svg);
+        const img = new Image();
         const blob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
         const url = URL.createObjectURL(blob);
 
-        const img = new Image();
         img.onload = () => {
-            ctx.drawImage(img, 20 * scale, 20 * scale, width, height);
-            
-            // Usar toBlob en lugar de toDataURL (es más rápido y estable)
-            canvas.toBlob((blob) => {
-                const downloadUrl = URL.createObjectURL(blob);
+            ctx.drawImage(img, 10 * finalScale, 10 * finalScale, bbox.width * finalScale, bbox.height * finalScale);
+            canvas.toBlob((b) => {
                 const link = document.createElement('a');
-                link.download = `formula_${Date.now()}.png`;
-                link.href = downloadUrl;
+                link.download = `math_${Date.now()}.png`;
+                link.href = URL.createObjectURL(b);
                 link.click();
-                
-                // Limpiar memoria
                 URL.revokeObjectURL(url);
-                URL.revokeObjectURL(downloadUrl);
                 btn.innerText = "Descargar PNG";
-            }, 'image/png', 1.0);
+            }, 'image/png');
         };
         img.src = url;
     }
