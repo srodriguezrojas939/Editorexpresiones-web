@@ -4,105 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor Matemático Pro</title>
-
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans:wght@400;600&display=swap');
-
         body { background: #fff; font-family: 'Open Sans', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { background: #F2F2F2; padding: 30px; border-radius: 40px; width: 100%; max-width: 850px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.05); position: relative; }
+        .header { text-align: center; margin-bottom: 15px; width: 100%; position: relative; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0; }
+        
+        /* Nuevo Selector de Color Discreto */
+        .color-wrapper { position: absolute; top: 0; right: 0; }
+        .color-trigger { width: 25px; height: 25px; border-radius: 4px; border: 2px solid #ddd; cursor: pointer; background-color: #000; transition: 0.2s; }
+        .color-trigger:hover { border-color: #999; }
+        #hidden-color-input { position: absolute; top: 0; right: 0; width: 25px; height: 25px; opacity: 0; cursor: pointer; }
 
-        .container {
-            background: #F2F2F2; padding: 30px; border-radius: 40px;
-            width: 100%; max-width: 850px; display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
-        }
-
-        .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0 0 20px 0; }
+        /* Menú de Píldoras */
+        .pill-menu { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; justify-content: center; background: #e0e0e0; padding: 5px; border-radius: 30px; }
+        .pill-btn { padding: 10px 25px; border-radius: 25px; border: none; background: transparent; font-weight: 600; font-size: 13px; cursor: pointer; color: #666; transition: 0.2s; flex: 1; text-align: center; }
+        .pill-btn.active { background: #fff; color: #000; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .grids-container { width: 100%; margin-bottom: 15px; }
+        .symbol-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; padding: 15px; background: #fff; border-radius: 20px; border: 1px solid #ddd; }
+        .symbol-grid.active { display: grid; }
 
         /* Visor */
-        .preview-box {
-            background: white; border-radius: 25px; margin-bottom: 20px;
-            width: 100%; min-height: 150px; display: flex; align-items: center; 
-            justify-content: center; border: 1px solid #ddd; overflow: hidden;
-        }
-        
-        #math-target { padding: 30px; display: inline-block; }
+        .preview-box { background: white; border-radius: 25px; margin-bottom: 20px; width: 100%; min-height: 150px; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd; overflow: hidden; }
+        #math-target { padding: 30px; display: inline-block; transition: opacity 0.2s; }
 
-        /* Selector de Color */
-        .color-picker {
-            display: flex; gap: 10px; margin-bottom: 15px; align-items: center;
-            background: white; padding: 10px 20px; border-radius: 20px; border: 1px solid #ddd;
-        }
-        .color-dot {
-            width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
-            border: 2px solid transparent; transition: 0.2s;
-        }
-        .color-dot:hover { transform: scale(1.2); }
-        .color-dot.active { border-color: #000; transform: scale(1.1); }
+        /* Botones de Símbolos */
+        .btn-sym { background: #f9f9f9; border: 1px solid #eee; padding: 10px 5px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.1s; }
+        .btn-sym:hover { background: #000; color: #fff; border-color: #000; }
+        .btn-sym b { font-size: 18px; margin-bottom: 4px; }
+        .btn-sym span { font-size: 9px; font-weight: 700; text-transform: uppercase; opacity: 0.6; }
 
-        /* Menús */
-        .toolbar { width: 100%; margin-bottom: 15px; }
-        details { background: white; border-radius: 12px; margin-bottom: 5px; border: 1px solid #e0e0e0; }
-        summary { padding: 12px 18px; font-weight: 600; font-size: 13px; cursor: pointer; color: #444; list-style: none; }
-        
-        .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); 
-            gap: 6px; padding: 12px; border-top: 1px solid #eee;
-        }
-
-        .btn-sym {
-            background: #fdfdfd; border: 1px solid #ddd; padding: 8px 2px; border-radius: 10px;
-            cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.1s;
-        }
-        .btn-sym:hover { background: #000; color: #fff; }
-        .btn-sym b { font-size: 18px; margin-bottom: 2px; }
-        .btn-sym span { font-size: 8px; font-weight: 700; text-transform: uppercase; opacity: 0.6; }
-
-        textarea {
-            width: 100%; padding: 20px; border-radius: 20px; border: 1px solid #ccc;
-            font-size: 16px; font-family: 'Courier New', monospace; outline: none;
-            resize: vertical; min-height: 100px; margin-bottom: 15px; text-align: center;
-        }
-
+        /* Área de Texto y Acciones */
+        textarea { width: 100%; padding: 20px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; font-family: 'Courier New', monospace; outline: none; resize: vertical; min-height: 100px; margin-bottom: 15px; text-align: center; }
         .actions { display: flex; gap: 10px; width: 100%; }
-        select { padding: 15px; border-radius: 25px; border: 1px solid #ccc; flex: 1; font-weight: 600; outline: none; }
-        
-        .btn-dl {
-            flex: 2; background: #000; color: #fff; border: none;
-            padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700;
-            cursor: pointer; transition: 0.3s;
-        }
+        select { padding: 15px; border-radius: 25px; border: 1px solid #ccc; flex: 1; font-weight: 600; outline: none; cursor: pointer; }
+        .btn-dl { flex: 2; background: #000; color: #fff; border: none; padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .btn-dl:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="header"><h1>Editor de expresiones</h1></div>
+    <div class="header">
+        <h1>Editor de expresiones</h1>
+        <div class="color-wrapper">
+            <div class="color-trigger" id="color-trigger" title="Cambiar Color"></div>
+            <input type="color" id="hidden-color-input" value="#000000">
+        </div>
+    </div>
+
+    <div class="pill-menu" id="pill-menu"></div>
+    <div class="grids-container" id="grids-container"></div>
 
     <div class="preview-box">
         <div id="math-target">\[ ... \]</div>
     </div>
 
-    <div class="color-picker">
-        <span style="font-size: 12px; font-weight: 700; color: #666; margin-right: 5px;">COLOR:</span>
-        <div class="color-dot active" style="background: #000000;" onclick="setColor('#000000', this)"></div>
-        <div class="color-dot" style="background: #2196F3;" onclick="setColor('#2196F3', this)"></div>
-        <div class="color-dot" style="background: #F44336;" onclick="setColor('#F44336', this)"></div>
-        <div class="color-dot" style="background: #4CAF50;" onclick="setColor('#4CAF50', this)"></div>
-        <div class="color-dot" style="background: #9C27B0;" onclick="setColor('#9C27B0', this)"></div>
-        <div class="color-dot" style="background: #FF9800;" onclick="setColor('#FF9800', this)"></div>
-    </div>
-
-    <div class="toolbar" id="toolbar"></div>
-
-    <textarea id="math-input" spellcheck="false" placeholder="Escribe aquí..."></textarea>
+    <textarea id="math-input" spellcheck="false" placeholder="Escribe código LaTeX aquí..."></textarea>
 
     <div class="actions">
         <select id="res-val">
             <option value="1.2">Calidad Baja</option>
-            <option value="2.5" selected>Calidad Media</option>
+            <option value="2.8" selected>Calidad Media</option>
             <option value="4.5">Calidad Alta</option>
         </select>
         <button class="btn-dl" onclick="optimizedExport()">Descargar PNG</button>
@@ -110,112 +74,122 @@
 </div>
 
 <script>
+    // ================= CONFIGURACIÓN Y ESTADO =================
     const menus = {
         "Álgebra": [
             {n: 'Fracc', s: '\\frac{a}{b}', i: '÷'}, {n: 'Raiz', s: '\\sqrt{x}', i: '√'},
-            {n: 'Sist', s: '\\begin{cases} x=1 \\\\ y=2 \\end{cases}', i: '{='}, {n: 'Matriz', s: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}', i: '[M]'}
+            {n: 'Potencia', s: 'x^{n}', i: 'xⁿ'}, {n: 'Sist.', s: '\\begin{cases} x=1 \\\\ y=2 \\end{cases}', i: '{='},
+            {n: 'Matriz', s: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}', i: '[M]'}
         ],
         "Cálculo": [
-            {n: 'Integ', s: '\\int_{a}^{b} ', i: '∫'}, {n: 'Deriv', s: '\\frac{dy}{dx}', i: 'dy'},
-            {n: 'Suma', s: '\\sum_{i=1}^{n}', i: '∑'}, {n: 'Lím', s: '\\lim_{x \\to \\infty}', i: 'lim'}
+            {n: 'Integral', s: '\\int_{a}^{b} ', i: '∫'}, {n: 'Derivada', s: '\\frac{dy}{dx}', i: 'dy'},
+            {n: 'Suma', s: '\\sum_{i=1}^{n}', i: '∑'}, {n: 'Límite', s: '\\lim_{x \to \infty}', i: 'lim'}
         ],
         "Símbolos": [
-            {n: 'Espacio', s: '\\: ', i: '␣'}, {n: 'Texto', s: '\\text{ }', i: 'Abc'},
-            {n: 'Inf', s: '\\infty', i: '∞'}, {n: 'Pi', s: '\\pi', i: 'π'},
-            {n: 'Alfa', s: '\\alpha', i: 'α'}, {n: 'Beta', s: '\\beta', i: 'β'}
+            {n: 'Espacio', s: '\\: ', i: '␣'}, {n: 'Infinito', s: '\\infty', i: '∞'},
+            {n: 'Pi', s: '\\pi', i: 'π'}, {n: 'Alfa', s: '\\alpha', i: 'α'},
+            {n: 'Beta', s: '\\beta', i: 'β'}, {n: 'Texto', s: '\\text{abc}', i: 'T'}
         ]
     };
-
     let renderTimer;
     let currentColor = '#000000';
     const inputArea = document.getElementById('math-input');
     const display = document.getElementById('math-target');
+    const colorInput = document.getElementById('hidden-color-input');
+    const colorTrigger = document.getElementById('color-trigger');
 
+    // ================= INICIALIZACIÓN =================
     function init() {
-        const tb = document.getElementById('toolbar');
+        // Crear menú de píldoras
+        const pillContainer = document.getElementById('pill-menu');
+        const gridsContainer = document.getElementById('grids-container');
+        let first = true;
         for (let cat in menus) {
-            let d = document.createElement('details');
-            let g = document.createElement('div');
-            g.className = 'grid';
-            d.innerHTML = `<summary>${cat}</summary>`;
+            // Crear botón de píldora
+            let pill = document.createElement('button');
+            pill.className = `pill-btn ${first ? 'active' : ''}`;
+            pill.textContent = cat;
+            pill.onclick = () => switchTab(cat);
+            pillContainer.appendChild(pill);
+            
+            // Crear rejilla de símbolos
+            let grid = document.createElement('div');
+            grid.className = `symbol-grid ${first ? 'active' : ''}`;
+            grid.id = `grid-${cat}`;
             menus[cat].forEach(item => {
                 let b = document.createElement('button');
                 b.className = 'btn-sym';
-                b.onclick = () => {
-                    let s = inputArea.selectionStart;
-                    inputArea.value = inputArea.value.substring(0, s) + item.s + inputArea.value.substring(inputArea.selectionEnd);
-                    inputArea.focus();
-                    render();
-                };
+                b.onclick = () => insertSymbol(item.s);
                 b.innerHTML = `<b>${item.i}</b><span>${item.n}</span>`;
-                g.appendChild(b);
+                grid.appendChild(b);
             });
-            d.appendChild(g);
-            tb.appendChild(d);
+            gridsContainer.appendChild(grid);
+            first = false;
         }
-        inputArea.value = "((a \\cdot x^2+b) \\cdot \\text{atan}(x))/(x^2+1)"; 
+
+        // Configurar inputs
+        inputArea.value = "\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}";
+        colorInput.addEventListener('input', updateColor);
+        inputArea.addEventListener('input', () => {
+            clearTimeout(renderTimer);
+            renderTimer = setTimeout(render, 350);
+        });
         render();
     }
 
-    function setColor(hex, el) {
-        currentColor = hex;
-        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-        el.classList.add('active');
+    // ================= LÓGICA DE INTERFAZ =================
+    function switchTab(catName) {
+        document.querySelectorAll('.pill-btn').forEach(b => b.classList.toggle('active', b.textContent === catName));
+        document.querySelectorAll('.symbol-grid').forEach(g => g.classList.toggle('active', g.id === `grid-${catName}`));
+    }
+
+    function updateColor(e) {
+        currentColor = e.target.value;
+        colorTrigger.style.backgroundColor = currentColor;
         render();
     }
 
-    inputArea.addEventListener('input', () => {
-        clearTimeout(renderTimer);
-        renderTimer = setTimeout(render, 350);
-    });
+    function insertSymbol(code) {
+        let s = inputArea.selectionStart;
+        inputArea.value = inputArea.value.substring(0, s) + code + inputArea.value.substring(inputArea.selectionEnd);
+        inputArea.focus();
+        render();
+    }
 
+    // ================= RENDERIZADO Y EXPORTACIÓN (INTACTOS) =================
     function render() {
         display.style.opacity = "0.4";
-        // Envolvemos la expresión en un comando de color de LaTeX
         const rawContent = inputArea.value || '\\text{...}';
         display.innerHTML = `\\[ \\color{${currentColor}}{${rawContent}} \\]`;
-        
-        MathJax.typesetPromise([display]).then(() => {
-            display.style.opacity = "1";
-        });
+        MathJax.typesetPromise([display]).then(() => { display.style.opacity = "1"; });
     }
 
     async function optimizedExport() {
         const svg = display.querySelector('svg');
         if (!svg) return;
-
         const btn = document.querySelector('.btn-dl');
         btn.innerText = "Procesando...";
-        
         const requestedScale = parseFloat(document.getElementById('res-val').value);
         const bbox = svg.viewBox.baseVal;
-        
-        // --- LÓGICA DE OPTIMIZACIÓN SILENCIOSA ---
-        // Limitamos el área total a unos 16 millones de píxeles (aprox 4000x4000)
-        // Esto evita que el navegador crashee con expresiones gigantes.
-        const maxDimension = 4000;
+        const maxDimension = 4500; // Límite de seguridad
         let finalScale = requestedScale;
-        
         if (bbox.width * finalScale > maxDimension) finalScale = maxDimension / bbox.width;
         if (bbox.height * finalScale > maxDimension) finalScale = Math.min(finalScale, maxDimension / bbox.height);
-        // ------------------------------------------
-
+        
         const canvas = document.createElement('canvas');
-        const padding = 20 * finalScale;
+        const padding = 30 * finalScale;
         canvas.width = (bbox.width * finalScale) + padding;
         canvas.height = (bbox.height * finalScale) + padding;
-        
         const ctx = canvas.getContext('2d');
         const svgData = new XMLSerializer().serializeToString(svg);
         const img = new Image();
         const blob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
         const url = URL.createObjectURL(blob);
-
         img.onload = () => {
             ctx.drawImage(img, padding/2, padding/2, bbox.width * finalScale, bbox.height * finalScale);
             canvas.toBlob((b) => {
                 const link = document.createElement('a');
-                link.download = `math_export_${Date.now()}.png`;
+                link.download = `math_formula_${Date.now()}.png`;
                 link.href = URL.createObjectURL(b);
                 link.click();
                 URL.revokeObjectURL(url);
@@ -224,9 +198,7 @@
         };
         img.src = url;
     }
-
     window.onload = init;
 </script>
-
 </body>
 </html>
