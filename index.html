@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Matemático Estable</title>
+    <title>Editor Matemático Pro</title>
 
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
     
@@ -13,67 +13,86 @@
         body { background: #fff; font-family: 'Open Sans', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
 
         .container {
-            background: #F2F2F2; padding: 25px; border-radius: 35px;
-            width: 100%; max-width: 800px; display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            background: #F2F2F2; padding: 30px; border-radius: 40px;
+            width: 100%; max-width: 850px; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
         }
 
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0; }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0 0 20px 0; }
 
-        /* Visor optimizado */
+        /* Visor */
         .preview-box {
-            background: white; border-radius: 20px; margin-bottom: 20px;
-            width: 100%; min-height: 120px; display: flex; align-items: center; 
-            justify-content: center; border: 1px solid #ddd; overflow-x: auto;
+            background: white; border-radius: 25px; margin-bottom: 20px;
+            width: 100%; min-height: 150px; display: flex; align-items: center; 
+            justify-content: center; border: 1px solid #ddd; overflow: hidden;
         }
         
-        #math-target { padding: 25px; display: inline-block; }
+        #math-target { padding: 30px; display: inline-block; }
 
-        /* Menús internos */
+        /* Selector de Color */
+        .color-picker {
+            display: flex; gap: 10px; margin-bottom: 15px; align-items: center;
+            background: white; padding: 10px 20px; border-radius: 20px; border: 1px solid #ddd;
+        }
+        .color-dot {
+            width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+            border: 2px solid transparent; transition: 0.2s;
+        }
+        .color-dot:hover { transform: scale(1.2); }
+        .color-dot.active { border-color: #000; transform: scale(1.1); }
+
+        /* Menús */
         .toolbar { width: 100%; margin-bottom: 15px; }
         details { background: white; border-radius: 12px; margin-bottom: 5px; border: 1px solid #e0e0e0; }
-        summary { padding: 10px 15px; font-weight: 600; font-size: 13px; cursor: pointer; color: #444; list-style: none; }
+        summary { padding: 12px 18px; font-weight: 600; font-size: 13px; cursor: pointer; color: #444; list-style: none; }
         
         .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); 
-            gap: 5px; padding: 10px; border-top: 1px solid #eee;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); 
+            gap: 6px; padding: 12px; border-top: 1px solid #eee;
         }
 
         .btn-sym {
-            background: #fdfdfd; border: 1px solid #ddd; padding: 8px 2px; border-radius: 8px;
+            background: #fdfdfd; border: 1px solid #ddd; padding: 8px 2px; border-radius: 10px;
             cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.1s;
         }
         .btn-sym:hover { background: #000; color: #fff; }
-        .btn-sym b { font-size: 16px; margin-bottom: 2px; }
+        .btn-sym b { font-size: 18px; margin-bottom: 2px; }
         .btn-sym span { font-size: 8px; font-weight: 700; text-transform: uppercase; opacity: 0.6; }
 
         textarea {
-            width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #ccc;
-            font-size: 15px; font-family: 'Courier New', monospace; outline: none;
-            resize: vertical; min-height: 80px; margin-bottom: 15px; text-align: center;
+            width: 100%; padding: 20px; border-radius: 20px; border: 1px solid #ccc;
+            font-size: 16px; font-family: 'Courier New', monospace; outline: none;
+            resize: vertical; min-height: 100px; margin-bottom: 15px; text-align: center;
         }
 
-        .actions { display: flex; gap: 8px; width: 100%; }
-        select { padding: 12px; border-radius: 15px; border: 1px solid #ccc; flex: 1; font-weight: 600; cursor: pointer; }
+        .actions { display: flex; gap: 10px; width: 100%; }
+        select { padding: 15px; border-radius: 25px; border: 1px solid #ccc; flex: 1; font-weight: 600; outline: none; }
         
         .btn-dl {
             flex: 2; background: #000; color: #fff; border: none;
-            padding: 12px; border-radius: 25px; font-size: 14px; font-weight: 700;
-            cursor: pointer; transition: 0.2s;
+            padding: 15px; border-radius: 30px; font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
         }
-        .btn-dl:hover { opacity: 0.8; }
+        .btn-dl:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>Editor de expresiones</h1>
-    </div>
+    <div class="header"><h1>Editor de expresiones</h1></div>
 
     <div class="preview-box">
         <div id="math-target">\[ ... \]</div>
+    </div>
+
+    <div class="color-picker">
+        <span style="font-size: 12px; font-weight: 700; color: #666; margin-right: 5px;">COLOR:</span>
+        <div class="color-dot active" style="background: #000000;" onclick="setColor('#000000', this)"></div>
+        <div class="color-dot" style="background: #2196F3;" onclick="setColor('#2196F3', this)"></div>
+        <div class="color-dot" style="background: #F44336;" onclick="setColor('#F44336', this)"></div>
+        <div class="color-dot" style="background: #4CAF50;" onclick="setColor('#4CAF50', this)"></div>
+        <div class="color-dot" style="background: #9C27B0;" onclick="setColor('#9C27B0', this)"></div>
+        <div class="color-dot" style="background: #FF9800;" onclick="setColor('#FF9800', this)"></div>
     </div>
 
     <div class="toolbar" id="toolbar"></div>
@@ -84,14 +103,14 @@
         <select id="res-val">
             <option value="1.2">Calidad Baja</option>
             <option value="2.5" selected>Calidad Media</option>
-            <option value="4.0">Calidad Alta</option>
+            <option value="4.5">Calidad Alta</option>
         </select>
-        <button class="btn-dl" onclick="safeExport()">Descargar PNG</button>
+        <button class="btn-dl" onclick="optimizedExport()">Descargar PNG</button>
     </div>
 </div>
 
 <script>
-    const config = {
+    const menus = {
         "Álgebra": [
             {n: 'Fracc', s: '\\frac{a}{b}', i: '÷'}, {n: 'Raiz', s: '\\sqrt{x}', i: '√'},
             {n: 'Sist', s: '\\begin{cases} x=1 \\\\ y=2 \\end{cases}', i: '{='}, {n: 'Matriz', s: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}', i: '[M]'}
@@ -100,24 +119,26 @@
             {n: 'Integ', s: '\\int_{a}^{b} ', i: '∫'}, {n: 'Deriv', s: '\\frac{dy}{dx}', i: 'dy'},
             {n: 'Suma', s: '\\sum_{i=1}^{n}', i: '∑'}, {n: 'Lím', s: '\\lim_{x \\to \\infty}', i: 'lim'}
         ],
-        "Extras": [
+        "Símbolos": [
             {n: 'Espacio', s: '\\: ', i: '␣'}, {n: 'Texto', s: '\\text{ }', i: 'Abc'},
-            {n: 'Inf', s: '\\infty', i: '∞'}, {n: 'Pi', s: '\\pi', i: 'π'}
+            {n: 'Inf', s: '\\infty', i: '∞'}, {n: 'Pi', s: '\\pi', i: 'π'},
+            {n: 'Alfa', s: '\\alpha', i: 'α'}, {n: 'Beta', s: '\\beta', i: 'β'}
         ]
     };
 
-    let timer;
+    let renderTimer;
+    let currentColor = '#000000';
     const inputArea = document.getElementById('math-input');
     const display = document.getElementById('math-target');
 
     function init() {
         const tb = document.getElementById('toolbar');
-        for (let cat in config) {
+        for (let cat in menus) {
             let d = document.createElement('details');
             let g = document.createElement('div');
             g.className = 'grid';
             d.innerHTML = `<summary>${cat}</summary>`;
-            config[cat].forEach(item => {
+            menus[cat].forEach(item => {
                 let b = document.createElement('button');
                 b.className = 'btn-sym';
                 b.onclick = () => {
@@ -132,47 +153,57 @@
             d.appendChild(g);
             tb.appendChild(d);
         }
-        inputArea.value = "\\frac{x^2 + 1}{\\sqrt{\\frac{1}{x}}}"; 
+        inputArea.value = "((a \\cdot x^2+b) \\cdot \\text{atan}(x))/(x^2+1)"; 
+        render();
+    }
+
+    function setColor(hex, el) {
+        currentColor = hex;
+        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+        el.classList.add('active');
         render();
     }
 
     inputArea.addEventListener('input', () => {
-        clearTimeout(timer);
-        timer = setTimeout(render, 400); // Mayor retraso para evitar lag
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(render, 350);
     });
 
     function render() {
         display.style.opacity = "0.4";
-        display.innerHTML = `\\[ ${inputArea.value || '\\text{...}'} \\]`;
+        // Envolvemos la expresión en un comando de color de LaTeX
+        const rawContent = inputArea.value || '\\text{...}';
+        display.innerHTML = `\\[ \\color{${currentColor}}{${rawContent}} \\]`;
+        
         MathJax.typesetPromise([display]).then(() => {
             display.style.opacity = "1";
         });
     }
 
-    async function safeExport() {
+    async function optimizedExport() {
         const svg = display.querySelector('svg');
         if (!svg) return;
 
         const btn = document.querySelector('.btn-dl');
-        btn.innerText = "Guardando...";
+        btn.innerText = "Procesando...";
         
-        const scale = parseFloat(document.getElementById('res-val').value);
-        
-        // Obtener dimensiones reales del SVG
+        const requestedScale = parseFloat(document.getElementById('res-val').value);
         const bbox = svg.viewBox.baseVal;
-        const w = bbox.width * scale;
-        const h = bbox.height * scale;
-
-        // Límite de seguridad: Si la imagen es mayor a 5000px, reducir escala
-        let finalScale = scale;
-        if (h > 4000 || w > 4000) {
-            alert("Expresión muy grande. Se ajustará la calidad para evitar errores.");
-            finalScale = 1.0; 
-        }
+        
+        // --- LÓGICA DE OPTIMIZACIÓN SILENCIOSA ---
+        // Limitamos el área total a unos 16 millones de píxeles (aprox 4000x4000)
+        // Esto evita que el navegador crashee con expresiones gigantes.
+        const maxDimension = 4000;
+        let finalScale = requestedScale;
+        
+        if (bbox.width * finalScale > maxDimension) finalScale = maxDimension / bbox.width;
+        if (bbox.height * finalScale > maxDimension) finalScale = Math.min(finalScale, maxDimension / bbox.height);
+        // ------------------------------------------
 
         const canvas = document.createElement('canvas');
-        canvas.width = (bbox.width * finalScale) + (20 * finalScale);
-        canvas.height = (bbox.height * finalScale) + (20 * finalScale);
+        const padding = 20 * finalScale;
+        canvas.width = (bbox.width * finalScale) + padding;
+        canvas.height = (bbox.height * finalScale) + padding;
         
         const ctx = canvas.getContext('2d');
         const svgData = new XMLSerializer().serializeToString(svg);
@@ -181,15 +212,15 @@
         const url = URL.createObjectURL(blob);
 
         img.onload = () => {
-            ctx.drawImage(img, 10 * finalScale, 10 * finalScale, bbox.width * finalScale, bbox.height * finalScale);
+            ctx.drawImage(img, padding/2, padding/2, bbox.width * finalScale, bbox.height * finalScale);
             canvas.toBlob((b) => {
                 const link = document.createElement('a');
-                link.download = `math_${Date.now()}.png`;
+                link.download = `math_export_${Date.now()}.png`;
                 link.href = URL.createObjectURL(b);
                 link.click();
                 URL.revokeObjectURL(url);
                 btn.innerText = "Descargar PNG";
-            }, 'image/png');
+            }, 'image/png', 1.0);
         };
         img.src = url;
     }
