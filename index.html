@@ -11,6 +11,15 @@
         .container { background: #F2F2F2; padding: 30px; border-radius: 40px; width: 100%; max-width: 850px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.05); position: relative; }
         .header { text-align: center; margin-bottom: 15px; width: 100%; position: relative; }
         .header h1 { font-family: 'Playfair Display', serif; font-size: 28px; margin: 0; }
+        .main-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #444;
+    margin-top: -5px; 
+    margin-bottom: 20px;
+    text-align: center;
+}
         
         /* Nuevo Selector de Color Discreto */
         .color-wrapper { position: absolute; top: 0; right: 0; }
@@ -89,6 +98,9 @@
 <div class="container">
     <div class="header">
         <h1>Editor de expresiones</h1>
+        <h2 class="main-subtitle">√(Raíz) Cuadrada²</h2>
+        <button class="btn-clear" ...>
+            
         <div class="color-wrapper">
             <div class="color-trigger" id="color-trigger" title="Cambiar Color"></div>
             <input type="color" id="hidden-color-input" value="#000000">
