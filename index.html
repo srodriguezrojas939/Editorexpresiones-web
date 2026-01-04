@@ -283,7 +283,7 @@
             {n: 'Corresp.', s: '\\leftrightarrow ', i: '↔'}
         ],
         "Cálculo": [
-            {n: 'Evaluar', s: '\\left. x \\\\\\\\right|_a^b', i: 'x|ₐᵇ'},
+            { n:'Evaluar', s:'\\left. x \\right|_a^b', i:'x|ₐᵇ' },
             {n: 'Integral', s: '\\int ', i: '∫'},
             {n: 'Int. Doble', s: '\\iint ', i: '∬'},
             {n: 'Int. Triple', s: '\\iiint ', i: '∭'},
@@ -302,7 +302,20 @@
             {n: 'Sumatoria', s: '\\sum_{i=1}^{n}', i: '∑'},
             {n: 'Productoria', s: '\\prod_{i=1}^{n}', i: '∏'},
             {n: 'Deriv. Punto', s: '\\dot{x}', i: 'ẋ'},
-            {n: 'Deriv. Prima', s: "f'(x)", i: "f'"}
+            {n: 'Deriv. Prima', s: "f'(x)", i: "f'"},
+            { n:'Integral Def.', s:'\\int_{a}^{b}', i:'∫ₐᵇ' },
+  { n:'Integral Impro.', s:'\\int_{0}^{\\infty}', i:'∫∞' },
+  { n:'Cambio Var.', s:'u=g(x)', i:'u=' },
+  { n:'Teo. Fund. Calc.', s:'\\int_{a}^{b} f\'(x)\\,dx = f(b)-f(a)', i:'TFC' },
+  { n:'Límite Finito', s:'\\lim_{x \\to a}', i:'limₐ' },
+  { n:'Límite Izq.', s:'\\lim_{x \\to a^-}', i:'lim⁻' },
+  { n:'Límite Der.', s:'\\lim_{x \\to a^+}', i:'lim⁺' },
+  { n:'Continuidad', s:'\\lim_{x \\to a} f(x)=f(a)', i:'cont' },
+  { n:'Serie', s:'\\sum_{n=0}^{\\infty}', i:'∑∞' },
+  { n:'Serie Taylor', s:'\\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n', i:'Taylor' },
+  { n:'Serie Maclaurin', s:'\\sum_{n=0}^{\\infty} \\frac{f^{(n)}(0)}{n!}x^n', i:'Macl' },
+  { n:'Jacobiano', s:'\\frac{\\partial(x,y)}{\\partial(u,v)}', i:'J' }
+            
         ],
         "Conjuntos": [
             {n: 'Pertenencia', s: '\\in ', i: '∈'},
@@ -400,7 +413,7 @@
             {n: 'Triángulo', s: '\\triangle ', i: '△'},
             {n: 'Perpendic.', s: '\\perp ', i: '⊥'},
             {n: 'Paralelo', s: '\\parallel ', i: '∥'},
-            {n: 'Vector L', s: '\\overrightarrow{AB}', i: '⟶'},
+            {n: 'Vector D', s: '\\overrightarrow{AB}', i: '⟶'},
             {n: 'Vector I', s: '\\overleftarrow{AB}', i: '⟵'},
             {n: 'Sobre-llave', s: '\\overbrace{a+b}^{n}', i: '⏞'},
             {n: 'Bajo-llave', s: '\\underbrace{a+b}_{n}', i: '⏟'},
@@ -409,7 +422,16 @@
             {n: 'Sombrero L', s: '\\widehat{abc}', i: 'Â'},
             {n: 'Grados', s: '^{\\circ}', i: '°'},
             {n: 'Daga', s: '\\dagger ', i: '†'},
-            {n: 'Planck', s: '\\hbar ', i: 'ℏ'}
+            {n: 'Planck', s: '\\hbar ', i: 'ℏ'},
+             { n:'Negro',    s:'{\\color{black}}',    i:'{\\color{black}\\rule{1em}{1em}}' },
+  { n:'Gris',     s:'{\\color{Gray}}',     i:'{\\color{Gray}\\rule{1em}{1em}}' },
+  { n:'Blanco',   s:'{\\color{white}}',    i:'{\\color{white}\\rule{1em}{1em}}' },
+  { n:'Rojo',     s:'{\\color{red}}',      i:'{\\color{red}\\rule{1em}{1em}}' },
+  { n:'Verde',    s:'{\\color{green}}',    i:'{\\color{green}\\rule{1em}{1em}}' },
+  { n:'Azul',     s:'{\\color{blue}}',     i:'{\\color{blue}\\rule{1em}{1em}}' },
+  { n:'Cian',     s:'{\\color{Cyan}}',     i:'{\\color{Cyan}\\rule{1em}{1em}}' },
+  { n:'Magenta',  s:'{\\color{magenta}}',  i:'{\\color{magenta}\\rule{1em}{1em}}' },
+  { n:'Amarillo', s:'{\\color{yellow}}',   i:'{\\color{yellow}\\rule{1em}{1em}}' }
         ]
         
         
