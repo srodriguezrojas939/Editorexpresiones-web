@@ -244,6 +244,7 @@
             {n: 'Idéntico', s: '\\equiv ', i: '≡'},
             {n: 'Similar', s: '\\sim ', i: '∼'},
             {n: 'Proporc.', s: '\\propto ', i: '∝'},
+             {n: 'Infinito', s: '\\infty ', i: '∞'},
             {n: 'Enter', s: '\\atop', i: 'Enter ↵'}
 
         ],
@@ -305,12 +306,9 @@
             {n: 'Deriv. Prima', s: "f'(x)", i: "f'"},
             { n:'Integral Def.', s:'\\int_{a}^{b}', i:'∫ₐᵇ' },
   { n:'Integral Impro.', s:'\\int_{0}^{\\infty}', i:'∫∞' },
-  { n:'Cambio Var.', s:'u=g(x)', i:'u=' },
-  { n:'Teo. Fund. Calc.', s:'\\int_{a}^{b} f\'(x)\\,dx = f(b)-f(a)', i:'TFC' },
   { n:'Límite Finito', s:'\\lim_{x \\to a}', i:'limₐ' },
   { n:'Límite Izq.', s:'\\lim_{x \\to a^-}', i:'lim⁻' },
   { n:'Límite Der.', s:'\\lim_{x \\to a^+}', i:'lim⁺' },
-  { n:'Continuidad', s:'\\lim_{x \\to a} f(x)=f(a)', i:'cont' },
   { n:'Serie', s:'\\sum_{n=0}^{\\infty}', i:'∑∞' },
   { n:'Serie Taylor', s:'\\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n', i:'Taylor' },
   { n:'Serie Maclaurin', s:'\\sum_{n=0}^{\\infty} \\frac{f^{(n)}(0)}{n!}x^n', i:'Macl' },
@@ -378,7 +376,17 @@
   { n:'Matriz 4x4', s:'\\begin{bmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 1 \\end{bmatrix}', i:'[4⁴]' },
   { n:'Matriz Aum.', s:'\\left[\\begin{array}{cc|c} 1 & 0 & a \\\\ 0 & 1 & b \\end{array}\\right]', i:'[M|b]' },
   { n:'Matriz Puntos', s:'\\begin{pmatrix} a_{11} & \\cdots & a_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ a_{m1} & \\cdots & a_{mn} \\end{pmatrix}', i:'[⋱]' },
-  { n:'Suma Vertical', s:'\\begin{array}{r} x+y \\\\ +x-y \\\\ \\hline 2x \\end{array}', i:'x+y̲' }
+  { n:'Suma Vertical', s:'\\begin{array}{r} x+y \\\\ +x-y \\\\ \\hline 2x \\end{array}', i:'x+y̲' },
+                {n: 'Ángulo', s: '\\angle ', i: '∠'},
+            {n: 'Triángulo', s: '\\triangle ', i: '△'},
+            {n: 'Perpendic.', s: '\\perp ', i: '⊥'},
+            {n: 'Paralelo', s: '\\parallel ', i: '∥'},
+            {n: 'Barra sup.', s: '\\overline{x}', i: 'x̄'},
+            {n: 'Barra inf.', s: '\\underline{x}', i: 'x_'},
+            {n: 'Sombrero L', s: '\\widehat{abc}', i: 'Â'},
+            {n: 'Grados', s: '^{\\circ}', i: '°'},
+            {n: 'Daga', s: '\\dagger ', i: '†'},
+            {n: 'Planck', s: '\\hbar ', i: 'ℏ'}
         ],
         "Paréntesis": [
             {n: 'Paréntesis', s: '\\left(  \\right)', i: '( )'},
@@ -407,22 +415,7 @@
         "Otros": [
             {n: 'Espacio', s: '\\: ', i: '␣'},
             {n: 'Espacio L', s: '\\quad ', i: '␣+'},
-            {n: 'Infinito', s: '\\infty ', i: '∞'},
             {n: 'Texto', s: '\\text{ }', i: 'Abc'},
-            {n: 'Ángulo', s: '\\angle ', i: '∠'},
-            {n: 'Triángulo', s: '\\triangle ', i: '△'},
-            {n: 'Perpendic.', s: '\\perp ', i: '⊥'},
-            {n: 'Paralelo', s: '\\parallel ', i: '∥'},
-            {n: 'Vector D', s: '\\overrightarrow{AB}', i: '⟶'},
-            {n: 'Vector I', s: '\\overleftarrow{AB}', i: '⟵'},
-            {n: 'Sobre-llave', s: '\\overbrace{a+b}^{n}', i: '⏞'},
-            {n: 'Bajo-llave', s: '\\underbrace{a+b}_{n}', i: '⏟'},
-            {n: 'Barra sup.', s: '\\overline{x}', i: 'x̄'},
-            {n: 'Barra inf.', s: '\\underline{x}', i: 'x_'},
-            {n: 'Sombrero L', s: '\\widehat{abc}', i: 'Â'},
-            {n: 'Grados', s: '^{\\circ}', i: '°'},
-            {n: 'Daga', s: '\\dagger ', i: '†'},
-            {n: 'Planck', s: '\\hbar ', i: 'ℏ'},
              { n:'Negro',    s:'{\\color{black}}',    i:'▣' },
   { n:'Gris',     s:'{\\color{Gray}color}',     i:'▣' },
   { n:'Blanco',   s:'{\\color{white}color}',    i:'▣' },
@@ -431,8 +424,19 @@
   { n:'Azul',     s:'{\\color{blue}color}',     i:'▣' },
   { n:'Cian',     s:'{\\color{Cyan}color}',     i:'▣' },
   { n:'Magenta',  s:'{\\color{magenta}color}',  i:'▣' },
-  { n:'Amarillo', s:'{\\color{yellow}color}',   i:'▣' }
-        ]
+  { n:'Amarillo', s:'{\\color{yellow}color}',   i:'▣' },
+             { n:'Frac. Parc. (Caso 1)', s:'\\frac{P(x)}{(x-a)(x-b)}=\\frac{A}{x-a}+\\frac{B}{x-b}', i:'A/(x−a)' },
+  { n:'Frac. Parc. (Caso 2)', s:'\\frac{P(x)}{(x-a)^n}=\\frac{A_1}{x-a}+\\frac{A_2}{(x-a)^2}+\\cdots+\\frac{A_n}{(x-a)^n}', i:'A/(x−a)ⁿ' },
+  { n:'Frac. Parc. (Caso 3)', s:'\\frac{P(x)}{(ax^2+bx+c)}=\\frac{Ax+B}{ax^2+bx+c}', i:'(Ax+B)/(ax²)' },
+  { n:'Frac. Parc. (Caso 4)', s:'\\frac{P(x)}{(ax^2+bx+c)^n}=\\frac{A_1x+B_1}{ax^2+bx+c}+\\cdots+\\frac{A_nx+B_n}{(ax^2+bx+c)^n}', i:'(Ax+B)/(ax²)ⁿ' },
+  { n:'Forma General', s:'\\frac{P(x)}{Q(x)}=\\sum \\frac{A}{(x-a)^k}+\\sum \\frac{Ax+B}{(ax^2+bx+c)^k}', i:'FP' },
+  { n:'Def. Derivada', s:'f\'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}', i:'df/dx' },
+             { n:'Ley Senos', s:'\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}', i:'sen' },
+  { n:'Ley Cosenos', s:'c^2=a^2+b^2-2ab\\cos C', i:'cos' },
+          { n:'Cuadrado Binomio', s:'(a+b)^2=a^2+2ab+b^2', i:'(a+b)²' },
+  { n:'Diferencia Cuad.', s:'(a-b)^2=a^2-2ab+b^2', i:'(a−b)²' },
+  { n:'Suma Cubos', s:'a^3+b^3=(a+b)(a^2-ab+b^2)', i:'a³+b³' },
+  { n:'Resta Cubos', s:'a^3-b^3=(a-b)(a^2+ab+b^2)', i:'a³−b³' }        ]
         
         
     };
