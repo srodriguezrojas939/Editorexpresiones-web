@@ -262,7 +262,6 @@
             {n: 'No mayor', s: '\\ngtr ', i: '≯'},
             {n: 'Precede', s: '\\prec ', i: '≺'},
             {n: 'Sigue', s: '\\succ ', i: '≻'},
-            // Desigualdades adicionales
             {n: 'Prec. o Igual', s: '\\\\preceq ', i: '≼'},
             {n: 'Suc. o Igual', s: '\\\\succeq ', i: '≽'},
             {n: 'Menor o Mayor', s: '\\\\lessgtr ', i: '≶'},
@@ -273,8 +272,6 @@
             {n: 'Mayor Sim.', s: '\\\\gtrsim ', i: '≳'},
             {n: 'Menor Aprox.', s: '\\\\lessapprox ', i: '⪅'},
             {n: 'Mayor Aprox.', s: '\\\\gtrapprox ', i: '⪆'},
-
-            // Tipos de Igualdades y Equivalencias
             {n: 'Diferente', s: '\\\\neq ', i: '≠'},
             {n: 'Aprox', s: '\\\\approx ', i: '≈'},
             {n: 'Equiv', s: '\\\\equiv ', i: '≡'},
@@ -290,7 +287,7 @@
             {n: 'Corresp.', s: '\\\\leftrightarrow ', i: '↔'}
         ],
         "Cálculo": [
-            {n: 'Eval. Barra', s: '\\\\left. x \\\\\\\\right|_a^b', i: 'x|ₐᵇ'},
+            {n: 'Evaluar', s: '\\\\left. x \\\\\\\\right|_a^b', i: 'x|ₐᵇ'},
             {n: 'Integral', s: '\\int ', i: '∫'},
             {n: 'Int. Doble', s: '\\iint ', i: '∬'},
             {n: 'Int. Triple', s: '\\iiint ', i: '∭'},
@@ -329,30 +326,23 @@
             {n: 'Reales (R)', s: '\\mathbb{R}', i: 'ℝ'},
             {n: 'Complejos (C)', s: '\\mathbb{C}', i: 'ℂ'},
             {n: 'Primos (P)', s: '\\mathbb{P}', i: 'ℙ'},
-            // Uniones e Intersecciones Especiales
             {n: 'Intersec Cuadr.', s: '\\\\sqcap ', i: '⊓'},
             {n: 'Unión Cuadr.', s: '\\\\sqcup ', i: '⊔'},
             {n: 'Unión Cuadr. G', s: '\\\\bigsqcup ', i: '⨆'},
             {n: 'Intersec Doble', s: '\\\\Cap ', i: '⋒'},
             {n: 'Unión Doble', s: '\\\\Cup ', i: '⋓'},
             {n: 'Unión Plus G', s: '\\\\biguplus ', i: '⨄'},
-            
-            // Operadores Gigantes (para series de conjuntos)
             {n: 'Intersec G', s: '\\\\bigcap ', i: '⋂'},
             {n: 'Unión G', s: '\\\\bigcup ', i: '⋃'},
             {n: 'Suma Dir G', s: '\\\\bigoplus ', i: '⨁'},
             {n: 'Producto T. G', s: '\\\\bigotimes ', i: '⨂'},
             {n: 'Punto G', s: '\\\\bigodot ', i: '⨀'},
-
-            // Relaciones de Contención
             {n: 'Subconj Cuadr.', s: '\\\\sqsubseteq ', i: '⊑'},
             {n: 'Superconj Cuadr.', s: '\\\\sqsupseteq ', i: '⊒'},
             {n: 'Subconj Estricto', s: '\\\\sqsubset ', i: '⊏'},
             {n: 'Superconj Estricto', s: '\\\\sqsupset ', i: '⊐'},
             {n: 'Subconj No Igual', s: '\\\\subsetneq ', i: '⊊'},
             {n: 'Superconj No Igual', s: '\\\\supsetneq ', i: '⊋'},
-
-            // Operaciones de Diferencia y Otros
             {n: 'Dif. Simétrica', s: '\\\\triangle ', i: '∆'},
             {n: 'Coproducto', s: '\\\\amalg ', i: '⨿'},
             {n: 'Complemento', s: 'x^{c}', i: 'xᶜ'},
@@ -371,19 +361,14 @@
             {n: 'Puntos Horiz', s: '\\cdots ', i: '⋯'},
             {n: 'Puntos Vert', s: '\\vdots ', i: '⋮'},
             {n: 'Puntos Diag', s: '\\ddots ', i: '⋱'},
-            {n: 'Dimensión', s: '\\mathbb{R}^{n \\times m}', i: 'Rⁿˣᵐ'}
-            // --- ESTRUCTURAS DE SISTEMAS Y FUNCIONES ---
+            {n: 'Dimensión', s: '\\mathbb{R}^{n \\times m}', i: 'Rⁿˣᵐ'},
             {n: 'Sist. 3 eq', s: '\\\\begin{cases} x+y+z=1 \\\\\\\\ x-y+z=0 \\\\\\\\ x+y-z=2 \\\\end{cases}', i: '{3='},
             {n: 'Sist. 4 eq', s: '\\\\begin{cases} x_1= \\\\\\\\ x_2= \\\\\\\\ x_3= \\\\\\\\ x_4= \\\\end{cases}', i: '{4='},
             {n: 'Función Partes', s: 'f(x) = \\\\begin{cases} x & \\\\text{si } x > 0 \\\\\\\\ -x & \\\\text{si } x < 0 \\\\\\\\ 0 & \\\\text{si } x = 0 \\\\end{cases}', i: 'f{x}'},
-
-            // --- MATRICES AVANZADAS ---
             {n: 'Matriz 3x3', s: '\\\\begin{bmatrix} a & b & c \\\\\\\\ d & e & f \\\\\\\\ g & h & i \\\\end{bmatrix}', i: '[3³]'},
             {n: 'Matriz 4x4', s: '\\\\begin{bmatrix} 1 & 0 & 0 & 0 \\\\\\\\ 0 & 1 & 0 & 0 \\\\\\\\ 0 & 0 & 1 & 0 \\\\\\\\ 0 & 0 & 0 & 1 \\\\end{bmatrix}', i: '[4⁴]'},
             {n: 'Matriz Aum.', s: '\\\\left[\\\\begin{array}{cc|c} 1 & 0 & a \\\\\\\\ 0 & 1 & b \\\\end{array}\\\\right]', i: '[M|b]'},
             {n: 'Matriz Puntos', s: '\\\\begin{pmatrix} a_{11} & \\\\cdots & a_{1n} \\\\\\\\ \\\\vdots & \\\\ddots & \\\\vdots \\\\\\\\ a_{m1} & \\\\cdots & a_{mn} \\\\end{pmatrix}', i: '[ ⋱ ]'},
-
-            // --- OPERACIONES VERTICALES Y CÁLCULO ---
             {n: 'Suma Vertical', s: '\\\\begin{array}{r} x + y \\\\\\\\ + x - y \\\\\\\\ \\\\hline 2x \\\\end{array}', i: 'x+y̲'}
         ],
         "Paréntesis": [
@@ -399,19 +384,12 @@
             {n: 'Der. Abierta', s: '\\left.  \\right)', i: '... )'},
             {n: 'Solo Izq.', s: '\\left\\{  \\right.', i: '{ ...'},
             {n: 'Solo Der.', s: '\\left.  \\right\\}', i: '... }'},
-            // Evaluación y Intervalos
             {n: 'Eval. Barra', s: '\\\\left. x \\\\\\\\right|_a^b', i: 'x|ₐᵇ'},
             {n: 'Int. Izq', s: '\\\\left[ x, y \\\\\\\\right)', i: '[x,y)'},
             {n: 'Int. Der', s: '\\\\left( x, y \\\\\\\\right]', i: '(x,y]'},
-            
-            // Delimitadores con barra central (Probabilidad/Conjuntos)
             {n: 'Barra Central', s: '\\\\left( x \\\\\\\\middle| y \\\\\\\\right)', i: '(x|y)'},
             {n: 'Llave Central', s: '\\\\left\\\\{ x \\\\\\\\middle| y \\\\\\\\right\\\\}', i: '{x|y}'},
-
-            // Dobles (Semántica o Parte Entera)
             {n: 'Doble Corch.', s: '[\\\\![ x ]\\\\!]', i: '[[x]]'},
-
-            // Llaves Horizontales (Anotaciones)
             {n: 'Llave Sup', s: '\\\\overbrace{ x }^{ n }', i: '⏞x'},
             {n: 'Llave Inf', s: '\\\\underbrace{ x }_{ n }', i: '⏟x'},
             {n: 'Barra Sup', s: '\\\\overline{ x }', i: 'x̅'},
